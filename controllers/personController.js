@@ -11,7 +11,7 @@ exports.createPerson = async (req, res) => {
       gender: req.body.gender,
       occupation: req.body.occupation,
       hngTrack: req.body.hngTrack,
-      slug: slugify(lowerCase(req.body.name)),
+      //   slug: slugify(lowerCase(req.body.name)),
     };
     const newPerson = await Person.create(data);
     res.status(201).json({
@@ -46,8 +46,8 @@ exports.getAllPeople = async (req, res) => {
 
 exports.getPerson = async (req, res) => {
   try {
-    const slug = req.params.slug;
-    const person = await Person.findOne({ slug }).select("-__v");
+    const id = req.params.id;
+    const person = await Person.findById(id).select("-__v");
     if (!person) {
       res.status(404).send("Person not found");
       return;
@@ -68,16 +68,12 @@ exports.getPerson = async (req, res) => {
 
 exports.updatePerson = async (req, res) => {
   try {
-    const newSlug = slugify(lowerCase(req.body.name));
-    const slug = req.params.slug;
-    const person = await Person.findOneAndUpdate(
-      { slug },
-      { ...req.body, slug: newSlug },
-      {
-        new: true,
-        runValidators: true,
-      }
-    ).select("-__v");
+    // const newSlug = slugify(lowerCase(req.body.name));
+    const id = req.params.id;
+    const person = await Person.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    }).select("-__v");
     if (!person) {
       res.status(404).send("Person not found");
       return;
@@ -98,8 +94,8 @@ exports.updatePerson = async (req, res) => {
 
 exports.deletePerson = async (req, res) => {
   try {
-    const slug = req.params.slug;
-    const person = await Person.findOneAndDelete({ slug });
+    const id = req.params.id;
+    const person = await Person.findByIdAndDelete(id);
     if (!person) {
       res.status(404).send("Person not found");
       return;

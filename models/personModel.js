@@ -28,7 +28,7 @@ const personSchema = new mongoose.Schema({
     type: String,
     max: [50, "Occupation cannot be more than 50 characters"],
   },
-  slug: String,
+  // slug: String,
 });
 
 // // personSchema.pre(/^find/, function (next) {
