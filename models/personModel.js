@@ -6,12 +6,12 @@ const personSchema = new mongoose.Schema({
   name: {
     type: "string",
     unique: true,
-    required: [true, "Please provide a name"],
+    // required: [true, "Please provide a name"],
     max: [60, "Name cannot be more than 60 characters"],
   },
   email: {
     type: String,
-    required: [true, "Please provide an email"],
+    // required: [true, "Please provide an email"],
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
